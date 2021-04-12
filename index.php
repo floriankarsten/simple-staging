@@ -5,7 +5,7 @@ load([
 
 Kirby::plugin('floriankarsten/simplestaging', [
     'options' => [
-        'jobs' => [ // you custom jobs
+        'jobs' => [
             'deploylive' => 'floriankarsten\\simplestaging\\DeployLive',
         ],
    ],
