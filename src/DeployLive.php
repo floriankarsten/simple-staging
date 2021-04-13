@@ -13,8 +13,6 @@ class DeployLive extends \Bnomei\JanitorJob
      */
     public function job(): array
     {
-
-
         if(!$siteFolder = option('floriankarsten.simplestaging.destination')) {
             return [
                 'status' => 500,
@@ -52,9 +50,21 @@ class DeployLive extends \Bnomei\JanitorJob
                 'error' => 'Temporary folder is not writable',
             ];
         }
+        $exclude = [];
+
+        // ray(option('floriankarsten.simplestaging.exclude'))->die();
+        // if(!option('floriankarsten.simplestaging.exclude')) {
+            foreach(option('floriankarsten.simplestaging.exclude', []) as $folder) {
+                $exclude[] = $base . "/" . $folder;
+            }
+
+        // }
+
+
+
         // duplicate staging to temporary destination
         // ray('duplicate staging to temporary destination', $base, $tmpDestination);
-        Dir::copy($base, $tmpDestination);
+        Dir::copy($base, $tmpDestination, true, $exclude);
 
         // rename live site (final destination) to $toBeDeleted
         // ray('rename live site (final destination) to $toBeDeleted', $finalDestination, $toBeDeleted);
@@ -73,63 +83,4 @@ class DeployLive extends \Bnomei\JanitorJob
         ];
     }
 
-    // // lifted from https://github.com/getkirby/kirby/blob/38afb2d650f3764d23d732b23ae8f04ab9ffba69/src/Toolkit/Dir.php#L321
-    // // because it had baked ignoring of '.htacess'
-    // public static function read(string $dir, array $ignore = null, bool $absolute = false): array
-    // {
-    //     if (is_dir($dir) === false) {
-    //         return [];
-    //     }
-
-    //     // create the ignore pattern
-    //     $ignore = $ignore ?? static::$ignore;
-    //     $ignore = array_merge($ignore, ['.', '..']);
-
-    //     // scan for all files and dirs
-    //     $result = array_values((array)array_diff(scandir($dir), $ignore));
-
-    //     // add absolute paths
-    //     if ($absolute === true) {
-    //         $result = array_map(function ($item) use ($dir) {
-    //             return $dir . '/' . $item;
-    //         }, $result);
-    //     }
-
-    //     return $result;
-    // }
-    // // lifted from https://github.com/getkirby/kirby/blob/38afb2d650f3764d23d732b23ae8f04ab9ffba69/src/Toolkit/Dir.php#L49
-    // // because we need the copy function to use our read
-    // // This could be probably better done by extending Toolkit\Dir but works for now
-    // public static function copy(string $dir, string $target, bool $recursive = true, array $ignore = []): bool
-    // {
-    //     if (is_dir($dir) === false) {
-    //         throw new Exception('The directory "' . $dir . '" does not exist');
-    //     }
-
-    //     if (is_dir($target) === true) {
-    //         throw new Exception('The target directory "' . $target . '" exists');
-    //     }
-
-    //     if (Dir::make($target) !== true) {
-    //         throw new Exception('The target directory "' . $target . '" could not be created');
-    //     }
-
-    //     foreach (self::read($dir) as $name) {
-    //         $root = $dir . '/' . $name;
-
-    //         if (in_array($root, $ignore) === true) {
-    //             continue;
-    //         }
-
-    //         if (is_dir($root) === true) {
-    //             if ($recursive === true) {
-    //                 self::copy($root, $target . '/' . $name);
-    //             }
-    //         } else {
-    //             F::copy($root, $target . '/' . $name);
-    //         }
-    //     }
-
-    //     return true;
-    // }
 }
