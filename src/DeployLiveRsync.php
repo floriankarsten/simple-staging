@@ -100,7 +100,6 @@ class DeployLiveRsync extends \Bnomei\JanitorJob
         $command = implode(" ", $command);
 
 
-        ray($command);
         // we can do it here
         exec($command, $output, $exit_code);
 
