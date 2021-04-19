@@ -81,11 +81,11 @@ class DeployLiveRsync extends \Bnomei\JanitorJob
         // exclude files
         if(option('floriankarsten.simplestaging.rsync.exclude')) {
             // $command[] = "--exclude={'". implode("','", option('floriankarsten.simplestaging.rsync.exclude')) ."'}";
-            $command[] = "--exclude '" . implode("' --exclude='", option('floriankarsten.simplestaging.rsync.exclude')) . "'";
+            $command[] = "--exclude '" . implode("' --exclude '", option('floriankarsten.simplestaging.rsync.exclude')) . "'";
         }
 
         if(option('floriankarsten.simplestaging.rsync.include') && !option('floriankarsten.simplestaging.rsync.exclude')) {
-            $command[] = "--exclude={'*'}";
+            $command[] = "--exclude '*'";
         }
 
         // files we get
