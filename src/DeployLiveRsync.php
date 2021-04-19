@@ -72,13 +72,24 @@ class DeployLiveRsync extends \Bnomei\JanitorJob
             $command[] = "--delete";
         }
 
+        // include files
+        if(option('floriankarsten.simplestaging.rsync.include')) {
+            // $command[] = "--include={'". implode("','", option('floriankarsten.simplestaging.rsync.include')) ."'}";
+            $command[] = "--include '" . implode("' --include='", option('floriankarsten.simplestaging.rsync.include')) . "'";
+        }
+
         // exclude files
         if(option('floriankarsten.simplestaging.rsync.exclude')) {
-            $command[] = "--exclude={'". implode("','", option('floriankarsten.simplestaging.rsync.exclude')) ."'}";
+            // $command[] = "--exclude={'". implode("','", option('floriankarsten.simplestaging.rsync.exclude')) ."'}";
+            $command[] = "--exclude '" . implode("' --exclude='", option('floriankarsten.simplestaging.rsync.exclude')) . "'";
+        }
+
+        if(option('floriankarsten.simplestaging.rsync.include') && !option('floriankarsten.simplestaging.rsync.exclude')) {
+            $command[] = "--exclude={'*'}";
         }
 
         // files we get
-        $command[] = $base ."/*";
+        $command[] = $base . "/*";
 
         // destination
         $command[] = $finalDestination;
@@ -89,7 +100,7 @@ class DeployLiveRsync extends \Bnomei\JanitorJob
         $command = implode(" ", $command);
 
 
-
+        ray($command);
         // we can do it here
         exec($command, $output, $exit_code);
 
@@ -121,7 +132,7 @@ class DeployLiveRsync extends \Bnomei\JanitorJob
     static function verifyCommand($command) :bool {
         $windows = strpos(PHP_OS, 'WIN') === 0;
         $test = $windows ? 'where' : 'command -v';
-        return is_executable(trim(shell_exec("$test $command")));
+        return is_executable(trim(exec("$test $command")));
     }
 
 }
