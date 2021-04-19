@@ -12,12 +12,13 @@
     "require": {
         "getkirby/composer-installer": "^1.1",
         "php": ">=7.4.0",
-        "getkirby/cms": "^3.5",
 		"bnomei/kirby3-janitor": "^2.6"
     },
     "autoload": {
-
-	},
+        "psr-4": {
+            "floriankarsten\\simplestaging\\": "src/"
+        }
+    },
     "config": {
         "optimize-autoloader": true
     }
