@@ -2,10 +2,6 @@
 
 namespace floriankarsten\simplestaging;
 
-// use Kirby\Toolkit\Dir;
-// use Kirby\Toolkit\F;
-
-
 class DeployLiveRsync extends \Bnomei\JanitorJob
 {
     /**

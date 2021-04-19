@@ -3,7 +3,6 @@
 namespace floriankarsten\simplestaging;
 
 
-
 class Dir extends \Kirby\Toolkit\Dir {
 
 	// changed from dir class because it had .htacess in it

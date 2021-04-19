@@ -1,7 +1,5 @@
 <?php
 
-// @include_once __DIR__ . '/vendor/autoload.php';
-
 load([
     'floriankarsten\\simplestaging\\DeployLive' => __DIR__ . '/src/DeployLive.php',
     'floriankarsten\\simplestaging\\DeployLiveRsync' => __DIR__ . '/src/DeployLiveRsync.php',
