@@ -22,7 +22,7 @@ The *PHP job* should be more compatible but it naive, takes longer, it alwyas co
 You probably want to use *Rsync job* if you can.
 
 ## Install
-```composer require floriankarsten/simple-staging'```
+```composer require floriankarsten/simple-staging```
 
 config.php
 ```php
