@@ -2,9 +2,6 @@
 
 namespace floriankarsten\simplestaging;
 
-// use Kirby\Toolkit\Dir;
-// use Kirby\Toolkit\F;
-
 
 class DeployLive extends \Bnomei\JanitorJob
 {
@@ -26,10 +23,7 @@ class DeployLive extends \Bnomei\JanitorJob
         } else {
             $base = dirname(kirby()->root('index'));
         }
-        // return [
-        //     'status' => 500,
-        //     'label' => $base,
-        // ];
+
 		$tmpDestination = dirname($base) . '/__staging_' . basename($base);
 		$finalDestination = dirname($base) . '/' . $siteFolder;
         $toBeDeleted = dirname($base) . '/__tobedeleted_' . $siteFolder;
@@ -51,16 +45,9 @@ class DeployLive extends \Bnomei\JanitorJob
             ];
         }
         $exclude = [];
-
-        // ray(option('floriankarsten.simplestaging.exclude'))->die();
-        // if(!option('floriankarsten.simplestaging.exclude')) {
-            foreach(option('floriankarsten.simplestaging.exclude', []) as $folder) {
-                $exclude[] = $base . "/" . $folder;
-            }
-
-        // }
-
-
+        foreach(option('floriankarsten.simplestaging.basic.excludedir', []) as $folder) {
+            $exclude[] = $base . "/" . $folder;
+        }
 
         // duplicate staging to temporary destination
         // ray('duplicate staging to temporary destination', $base, $tmpDestination);
