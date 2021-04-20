@@ -42,17 +42,17 @@ In your blueprint
 ```yaml
 // PHP job
 pushlive:
-	type: janitor
-	label: Deploy to Live site rsync
-	progress: Deploying...
-	job: deploylive
+  type: janitor
+  label: Deploy to Live site rsync
+  progress: Deploying...
+  job: deploylive
 
 // Rsync job
 pushlive:
-	type: janitor
-	label: Deploy to Live site rsync
-	progress: Deploying...
-	job: deployliversync
+  type: janitor
+  label: Deploy to Live site rsync
+  progress: Deploying...
+  job: deployliversync
 ```
 
 
