@@ -1,5 +1,5 @@
 # Simple staging Janitor jobs
-Plugin for very simple staging setup for https://github.com/bnomei/kirby3-janitor/ (required). Beta quality - use at your own risk.
+Plugin for very simple staging setup for https://github.com/bnomei/kirby3-janitor/ (required). Beta quality - use at your own risk. It's working without problems for me but any comments and suggestions for improvements are welcome.
 There are two variants pure php and rsync.
 
 ## Requirements
