@@ -10,13 +10,15 @@ class DeployLive extends \Bnomei\JanitorJob
      */
     public function job(): array
     {
-        if(!$siteFolder = option('floriankarsten.simplestaging.destination')) {
+        if(!$destination = option('floriankarsten.simplestaging.destination')) {
             return [
                 'status' => 500,
                 'label' => 'floriankarsten.simplestaging.destination is not set',
                 'error' => 'floriankarsten.simplestaging.destination is not set',
             ];
         }
+		$absoluteMode = option('floriankarsten.simplestaging.absolute');
+
         // base is folder that holds whole website that should be duplicated. By default its parent of index/public folder
         if(option('floriankarsten.simplestaging.base')) {
             $base = option('floriankarsten.simplestaging.base');
@@ -24,9 +26,15 @@ class DeployLive extends \Bnomei\JanitorJob
             $base = dirname(kirby()->root('index'));
         }
 
-		$tmpDestination = dirname($base) . '/__staging_' . basename($base);
-		$finalDestination = dirname($base) . '/' . $siteFolder;
-        $toBeDeleted = dirname($base) . '/__tobedeleted_' . $siteFolder;
+		if($absoluteMode) {
+			$tmpDestination = dirname($destination) . '/__staging_' . basename($base);
+			$finalDestination = dirname($destination) . '/' . basename($destination);
+			$toBeDeleted = dirname($destination) . '/__tobedeleted_' . basename($destination);
+		} else {
+			$tmpDestination = dirname($base) . '/__staging_' . basename($base);
+			$finalDestination = dirname($base) . '/' . $destination;
+			$toBeDeleted = dirname($base) . '/__tobedeleted_' . $destination;
+		}
 
 
 
@@ -44,6 +52,7 @@ class DeployLive extends \Bnomei\JanitorJob
                 'error' => 'Temporary folder is not writable',
             ];
         }
+
         $exclude = [];
         foreach(option('floriankarsten.simplestaging.basic.excludedir', []) as $folder) {
             $exclude[] = $base . "/" . $folder;
