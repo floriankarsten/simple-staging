@@ -6,7 +6,7 @@ namespace floriankarsten\simplestaging;
 class Dir extends \Kirby\Toolkit\Dir {
 
 	// changed from dir class because it had .htacess in it
-    public static $ignore = [
+    public static array $ignore = [
         '.',
         '..',
         '.DS_Store',
@@ -38,38 +38,5 @@ class Dir extends \Kirby\Toolkit\Dir {
         }
 
         return $result;
-    }
-
-	public static function copy(string $dir, string $target, bool $recursive = true, array $ignore = []): bool
-    {
-        if (is_dir($dir) === false) {
-            throw new Exception('The directory "' . $dir . '" does not exist');
-        }
-
-        if (is_dir($target) === true) {
-            throw new Exception('The target directory "' . $target . '" exists');
-        }
-
-        if (static::make($target) !== true) {
-            throw new Exception('The target directory "' . $target . '" could not be created');
-        }
-
-        foreach (self::read($dir) as $name) {
-            $root = $dir . '/' . $name;
-
-            if (in_array($root, $ignore) === true) {
-                continue;
-            }
-
-            if (is_dir($root) === true) {
-                if ($recursive === true) {
-                    self::copy($root, $target . '/' . $name, true, $ignore);
-                }
-            } else {
-                \Kirby\Toolkit\F::copy($root, $target . '/' . $name);
-            }
-        }
-
-        return true;
     }
 }
